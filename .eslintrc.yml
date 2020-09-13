@@ -4,6 +4,8 @@ env:
   jest: true
 extends:
   - 'plugin:react/recommended'
+  - 'plugin:import/errors'
+  - 'plugin:import/warnings'
   - airbnb
 globals:
   Atomics: readonly
@@ -15,6 +17,8 @@ parserOptions:
   sourceType: module
 plugins:
   - react
+settings:
+  import/resolver: webpack
 rules:
   import/no-extraneous-dependencies:
     - "error"
