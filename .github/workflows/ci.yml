@@ -32,8 +32,8 @@ jobs:
     - name: heroku push
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:push web
+      run: heroku container:push -a fast-caverns-97102 web
     - name: heroku release
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:release web
+      run: heroku container:release -a fast-caverns-97102 web
