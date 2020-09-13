@@ -10,6 +10,7 @@
     "node": ">= 13"
   },
   "scripts": {
+    "lint": "npx eslint src --ext js,jsx",
     "test": "jest",
     "build-server": "babel server --out-dir dist --source-maps inline && cp -r server/views dist/views",
     "build-app": "npx webpack -p --env production",

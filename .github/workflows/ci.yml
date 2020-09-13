@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ ci-setup ]
+    branches: [ master, ci-setup ]
   pull_request:
     branches: [ master ]
 
@@ -24,4 +24,4 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm lint
+    - run: npm run lint
