@@ -25,9 +25,15 @@ jobs:
     - run: npm ci
     - run: npm run lint
     - run: npm run test
+    - name: heroku login
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:login
+    - name: heroku push
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:push web
     - name: heroku release
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      - run: heroku container:login
-      - run: heroku container:push web
-      - run: heroku container:release web
+      run: heroku container:release web
