@@ -26,6 +26,6 @@ jobs:
     - run: npm run lint
     - run: npm run test
     - name: login to heroku
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:login
