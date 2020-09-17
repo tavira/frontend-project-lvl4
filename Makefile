@@ -23,7 +23,7 @@ test-coverage:
 	npm test -- --coverage
 
 lint:
-	npx eslint . --ext js,jsx
+	npm run lint
 
 publish:
 	npm publish

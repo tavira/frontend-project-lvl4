@@ -10,12 +10,12 @@
     "node": ">= 13"
   },
   "scripts": {
+    "lint": "npx eslint src --ext js,jsx",
     "test": "jest",
     "build-server": "babel server --out-dir dist --source-maps inline && cp -r server/views dist/views",
     "build-app": "npx webpack -p --env production",
     "build": "npm run build-app && npm run build-server",
-    "start": "dist/bin/slack.js",
-    "postinstall": "npm run build"
+    "start": "dist/bin/slack.js"
   },
   "repository": {
     "type": "git",
@@ -79,7 +79,7 @@
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-import-resolver-webpack": "^0.12.1",
-    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^23.8.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
