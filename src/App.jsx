@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { Container, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-import store from './store/store';
 import Channels from './components/channels';
 
 const App = ({ state }) => (
@@ -17,9 +16,7 @@ const App = ({ state }) => (
 
 const render = (gon) => {
   ReactDOM.render(
-    <Provider store={store}>
-      <App state={gon} />
-    </Provider>,
+    <App state={gon} />,
     document.getElementById('chat'),
   );
 };
