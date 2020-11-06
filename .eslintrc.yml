@@ -6,6 +6,7 @@ extends:
   - 'plugin:react/recommended'
   - 'plugin:import/errors'
   - 'plugin:import/warnings'
+  - 'plugin:testing-library/react'
   - airbnb
 globals:
   Atomics: readonly
@@ -17,6 +18,8 @@ parserOptions:
   sourceType: module
 plugins:
   - react
+  - import
+  - testing-library
 settings:
   import/resolver: webpack
 rules:

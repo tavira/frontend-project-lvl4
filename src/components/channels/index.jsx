@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 
 const renderChannel = (channel) => (
@@ -10,21 +10,15 @@ const renderChannelList = (channels) => (
   channels.map(renderChannel)
 );
 
-const ChannelsList = ({ channels }) => (
-  <>
-    <h2>Channels</h2>
-    <ul>{renderChannelList(channels)}</ul>
-  </>
-);
-
-ChannelsList.propTypes = {
-  channels: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      removable: PropTypes.bool.isRequired,
-    }).isRequired,
-  ).isRequired,
+const ChannelsList = () => {
+  const channels = useSelector((state) => state.channels.entities);
+  console.log('channels', channels);
+  return (
+    <>
+      <h2>Channels</h2>
+      <ul>{renderChannelList(channels)}</ul>
+    </>
+  );
 };
 
 export default ChannelsList;
