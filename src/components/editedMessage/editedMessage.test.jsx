@@ -51,7 +51,7 @@ describe('test chat message sending', () => {
 
     const message = 'hello';
     const username = 'author name';
-    const initialState = { currentChannelId: 1 };
+    const initialState = { currentChannelId: 1, channels: [], messages: [] };
     const expectedPath = routes.channelMessagesPath(initialState.currentChannelId);
     const expectedRequestData = { data: { attributes: { message, username } } };
 
@@ -73,7 +73,7 @@ describe('test chat message sending', () => {
   });
 
   test('textbox should be empty after message sending', async () => {
-    const initialState = { currentChannelId: 1 };
+    const initialState = { currentChannelId: 1, channels: [], messages: [] };
 
     const { findByRole } = render(<EditedMessage />, { initialState });
     const element = await findByRole('textbox');
@@ -93,7 +93,7 @@ describe('test chat message sending', () => {
         ctx.status(500),
       )),
     );
-    const initialState = { currentChannelId: 1 };
+    const initialState = { currentChannelId: 1, channels: [], messages: [] };
     const { findByRole, container } = render(<EditedMessage />, { initialState });
     const element = await findByRole('textbox');
     await userEvent.type(element, 'hello');

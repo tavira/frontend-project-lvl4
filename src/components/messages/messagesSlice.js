@@ -4,7 +4,7 @@ const messagesAdapter = createEntityAdapter();
 const messagesSelectors = messagesAdapter.getSelectors((state) => state.messages);
 const selectCurrentChannelMessages = createSelector(
   (state) => state.channels.currentChannelId,
-  (state) => messagesSelectors.selectAll(state),
+  (state) => messagesSelectors.selectEntities(state),
   (currentChannelId, messages) => (
     messages.filter((message) => message.channelId === currentChannelId)
   ),
