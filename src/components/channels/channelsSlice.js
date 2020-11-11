@@ -1,4 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
+
+const selectCurrentChannelName = createSelector(
+  (state) => state.channels.currentChannelId,
+  (state) => state.channels.entities,
+  (currentChannelId, channels) => channels.find((channel) => channel.id === currentChannelId).name,
+);
 
 export const slice = createSlice({
   name: 'channels',
@@ -9,3 +15,5 @@ export const slice = createSlice({
 });
 
 export default slice.reducer;
+
+export { selectCurrentChannelName };
