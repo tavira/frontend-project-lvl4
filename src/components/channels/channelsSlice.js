@@ -1,4 +1,11 @@
-import { createSlice, createSelector } from '@reduxjs/toolkit';
+/* eslint-disable no-param-reassign */
+import {
+  createSlice,
+  createSelector,
+  createAsyncThunk,
+  createEntityAdapter,
+} from '@reduxjs/toolkit';
+import { apiSendChannel } from '../../api';
 
 const channelsAdapter = createEntityAdapter();
 const channelsSelectors = channelsAdapter.getSelectors((state) => state.channels);
@@ -8,6 +15,18 @@ const selectCurrentChannel = createSelector(
   (state) => selectChannels(state),
   (state) => state.channels.currentChannelId,
   (channels, currentChannelId) => channels.find((channel) => channel.id === currentChannelId),
+);
+
+const addChannel = createAsyncThunk(
+  'channels/addChannel',
+  async (values, { rejectWithValue }) => {
+    try {
+      const response = await apiSendChannel(values);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  },
 );
 
 export const slice = createSlice({
@@ -28,8 +47,10 @@ export default slice.reducer;
 export const {
   initCurrentChannel,
   initChannels,
+  channelAdded,
 } = slice.actions;
 export {
+  addChannel,
   selectChannels,
   selectCurrentChannel,
 };
