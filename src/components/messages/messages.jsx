@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { selectCurrentChannelMessages } from './messagesSlice';
-import { selectCurrentChannelName } from '../channels/channelsSlice';
+import { selectCurrentChannel } from '../channels/channelsSlice';
 
 const Message = ({ username, text }) => (
   <div>
@@ -24,7 +24,7 @@ const MessagesList = ({ messages, style }) => (
 
 const Messages = ({ style }) => {
   const messages = useSelector(selectCurrentChannelMessages);
-  const currentChannelName = useSelector(selectCurrentChannelName);
+  const { name: currentChannelName } = useSelector(selectCurrentChannel);
   return (
     <>
       <h2>
