@@ -6,6 +6,7 @@ import io from 'socket.io-client';
 import createStore from './store';
 import createSocketMiddleware from './middlewares/websocket';
 import UserContext from './contexts/UserContext';
+import { initCurrentChannel, initChannels } from './components/channels/channelsSlice';
 
 const getRandomUsername = () => {
   const firstName = faker.name.firstName();
@@ -23,6 +24,8 @@ const init = (component, initialState, appOptions = {}) => {
   const socket = appOptions.socket || io();
   const middlewares = [createSocketMiddleware(socket)];
   const store = createStore(initialState, middlewares);
+  store.dispatch(initCurrentChannel({ currentChannelId: initialState.currentChannelId }));
+  store.dispatch(initChannels(initialState.channels));
   const username = getRandomUsername();
   setCookieIfNotExist('username', username);
 

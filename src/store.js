@@ -12,11 +12,6 @@ export default (initialState = {}, middlewares = []) => configureStore({
   },
   middleware: getDefaultMiddleware().concat(middlewares),
   preloadedState: {
-    channels: {
-      entities: initialState.channels,
-      ids: initialState.channels.map((channel) => channel.id),
-      currentChannelId: initialState.currentChannelId,
-    },
     messages: {
       entities: initialState.messages,
       ids: initialState.messages.map((message) => message.id),
