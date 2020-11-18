@@ -17,7 +17,7 @@ const Message = ({ username, text }) => (
 );
 
 const MessagesList = ({ messages, style }) => (
-  <div style={style}>
+  <div style={style} data-testid="messages">
     {messages.map((msg) => (<Message key={msg.id} username={msg.username} text={msg.message} />))}
   </div>
 );

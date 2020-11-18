@@ -39,6 +39,9 @@ export const slice = createSlice({
     initCurrentChannel(state, action) {
       state.currentChannelId = action.payload.currentChannelId;
     },
+    switchChannel(state, action) {
+      state.currentChannelId = action.payload.id;
+    },
     channelAdded: channelsAdapter.addOne,
   },
 });
@@ -47,6 +50,7 @@ export default slice.reducer;
 export const {
   initCurrentChannel,
   initChannels,
+  switchChannel,
   channelAdded,
 } = slice.actions;
 export {
