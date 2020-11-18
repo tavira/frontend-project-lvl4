@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { addChannel as addChannelAction } from './channelsSlice';
-import InputModalWindow from '../modals/inputModal';
+import AddModal from '../modals/addModal';
 
 const AddChannel = () => {
   const [showModal, setShowModal] = useState(false);
@@ -11,7 +11,7 @@ const AddChannel = () => {
   return (
     <>
       <Button variant="outline-primary" style={{ width: '100%' }} onClick={handleShow}>Add channel</Button>
-      <InputModalWindow show={showModal} handleClose={handleClose} header="Add channel" action={addChannelAction} />
+      <AddModal show={showModal} handleClose={handleClose} header="Add channel" action={addChannelAction} />
     </>
   );
 };
