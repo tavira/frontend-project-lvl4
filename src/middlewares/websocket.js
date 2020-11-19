@@ -1,5 +1,8 @@
 import { messageDelivered } from '../components/messages/messagesSlice';
-import { channelAdded } from '../components/channels/channelsSlice';
+import {
+  channelAdded,
+  channelRenamed,
+} from '../components/channels/channelsSlice';
 
 export default (socket) => (store) => {
   socket.on('connect', () => {
@@ -8,6 +11,9 @@ export default (socket) => (store) => {
     });
     socket.on('newChannel', ({ data: { attributes } }) => {
       store.dispatch(channelAdded(attributes));
+    });
+    socket.on('renameChannel', ({ data: { attributes } }) => {
+      store.dispatch(channelRenamed(attributes));
     });
   });
   return (next) => (action) => next(action);

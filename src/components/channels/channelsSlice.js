@@ -5,7 +5,10 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
-import { apiSendChannel } from '../../api';
+import {
+  apiSendChannel,
+  apiRenameChannel,
+} from '../../api';
 
 const channelsAdapter = createEntityAdapter();
 const channelsSelectors = channelsAdapter.getSelectors((state) => state.channels);
@@ -29,6 +32,19 @@ const addChannel = createAsyncThunk(
   },
 );
 
+const renameChannel = createAsyncThunk(
+  'channels/renameChannel',
+  async (values, { rejectWithValue }) => {
+    try {
+      const { name, id } = values;
+      const response = await apiRenameChannel(name, id);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  },
+);
+
 export const slice = createSlice({
   name: 'channels',
   initialState: channelsAdapter.getInitialState(),
@@ -43,6 +59,7 @@ export const slice = createSlice({
       state.currentChannelId = action.payload.id;
     },
     channelAdded: channelsAdapter.addOne,
+    channelRenamed: channelsAdapter.upsertOne,
   },
 });
 
@@ -52,9 +69,11 @@ export const {
   initChannels,
   switchChannel,
   channelAdded,
+  channelRenamed,
 } = slice.actions;
 export {
   addChannel,
+  renameChannel,
   selectChannels,
   selectCurrentChannel,
 };

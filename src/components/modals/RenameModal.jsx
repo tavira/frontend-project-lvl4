@@ -1,30 +1,37 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
 
-const InputModalWindow = ({
-  show, handleClose, header, action,
+const RenameModal = ({
+  info, hideModal, action,
 }) => {
+  const inputRef = useRef();
   const dispatch = useDispatch();
 
+  const { id, name } = info;
+
   const handleFormSubmit = async (values, { resetForm, setFieldError }) => {
-    const resultAction = await dispatch(action({ ...values }));
+    const resultAction = await dispatch(action({ ...values, id }));
     if (action.fulfilled.match(resultAction)) {
       resetForm();
-      handleClose();
+      hideModal();
     }
     if (action.rejected.match(resultAction)) {
-      setFieldError('data', resultAction.payload);
+      setFieldError('name', resultAction.payload);
     }
   };
 
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show onHide={hideModal}>
       <Formik
-        initialValues={{ name: '' }}
+        initialValues={{ name }}
         onSubmit={handleFormSubmit}
         validationSchema={
           Yup.object().shape({
@@ -37,17 +44,19 @@ const InputModalWindow = ({
         }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Header closeButton>
-              <Modal.Title>{header}</Modal.Title>
+              <Modal.Title>Rename</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form.Row>
                 <Form.Group>
                   <Form.Control
+                    data-testid="input-name"
                     type="text"
                     name="name"
                     value={values.name}
                     onChange={handleChange}
                     isInvalid={!!errors.name}
+                    ref={inputRef}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.name}
@@ -56,7 +65,7 @@ const InputModalWindow = ({
               </Form.Row>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>Close</Button>
+              <Button variant="secondary" onClick={hideModal}>Close</Button>
               <Button variant="primary" type="submit">Save changes</Button>
             </Modal.Footer>
           </Form>
@@ -66,11 +75,13 @@ const InputModalWindow = ({
   );
 };
 
-InputModalWindow.propTypes = {
-  show: propTypes.bool.isRequired,
-  handleClose: propTypes.func.isRequired,
-  header: propTypes.string.isRequired,
+RenameModal.propTypes = {
+  info: propTypes.shape({
+    id: propTypes.number.isRequired,
+    name: propTypes.string.isRequired,
+  }).isRequired,
+  hideModal: propTypes.func.isRequired,
   action: propTypes.func.isRequired,
 };
 
-export default InputModalWindow;
+export default RenameModal;

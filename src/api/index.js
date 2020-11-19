@@ -23,12 +23,19 @@ const sendChannel = (values) => axios.post(
   },
 );
 
-const removeChannel = (channelId) => axios.delete(
+const renameChannel = (name, channelId) => axios.patch(
   routes.channelPath(channelId),
+  {
+    data: {
+      attributes: {
+        name,
+      },
+    },
+  },
 );
 
 export {
   sendMessage as apiSendMessage,
   sendChannel as apiSendChannel,
-  removeChannel as apiRemoveChannel,
+  renameChannel as apiRenameChannel,
 };
