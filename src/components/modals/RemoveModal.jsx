@@ -5,13 +5,11 @@ import { useDispatch } from 'react-redux';
 
 
 const RemoveModal = ({
-  info, action,
+  info, hideModal, action,
 }) => {
   const dispatch = useDispatch();
 
   const [error, setError] = useState('');
-  const [show, setShow] = useState(true);
-  const hideModal = () => setShow(false);
 
   const { id, name } = info;
   const handleClick = async (e) => {
@@ -25,12 +23,8 @@ const RemoveModal = ({
     }
   };
 
-  if (!show) {
-    return null;
-  }
-
   return (
-    <Modal show={show} onHide={hideModal}>
+    <Modal show onHide={hideModal}>
       <Modal.Header closeButton>
         <Modal.Title>Delete</Modal.Title>
       </Modal.Header>
@@ -55,6 +49,7 @@ RemoveModal.propTypes = {
     id: propTypes.number.isRequired,
     name: propTypes.string.isRequired,
   }).isRequired,
+  hideModal: propTypes.func.isRequired,
   action: propTypes.func.isRequired,
 };
 
