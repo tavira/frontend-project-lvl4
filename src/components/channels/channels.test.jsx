@@ -279,7 +279,7 @@ describe('test channels', () => {
       wsserver.emit('connect');
     });
 
-    test.only('should be able to remove removable channel', async () => {
+    test('should be able to remove removable channel', async () => {
       const channelBlock = await screen.findByText('removable_channel');
       const channelDropdown = channelBlock.closest('.dropdown').querySelector('.dropdown-toggle');
       await act(async () => {
