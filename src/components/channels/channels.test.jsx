@@ -8,6 +8,7 @@ import {
   queryByText,
   act,
   findByRole,
+  within,
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
@@ -54,6 +55,15 @@ beforeAll(() => {
       wsserver.emit('renameChannel', outgoing);
       return res(
         context.status(200),
+        context.json(outgoing),
+      );
+    }),
+    rest.delete(routes.channelPath(':id'), (req, res, context) => {
+      const id = Number(req.params.id);
+      const outgoing = { data: { type: 'channels', id } };
+      wsserver.emit('removeChannel', outgoing);
+      return res(
+        context.status(204),
         context.json(outgoing),
       );
     }),
@@ -242,6 +252,83 @@ describe('test channels', () => {
       await userEvent.type(await screen.findByRole('textbox'), '{backspace}');
       await waitFor(() => {
         expect(queryByText(screen.getByRole('dialog'), 'required')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('remove channels', () => {
+    const initialState = {
+      currentChannelId: 2,
+      channels: [
+        { id: 1, name: 'general', removable: false },
+        { id: 2, name: 'removable_channel', removable: true },
+      ],
+      messages: [
+        {
+          id: 1, username: 'user1', message: 'message_in_general', channelId: 1,
+        },
+        {
+          id: 2, username: 'user2', message: 'message_in_removable', channelId: 2,
+        },
+      ],
+    };
+
+    beforeEach(async () => {
+      const appOptions = { socket: wsclient };
+      await render(<App />, { initialState, appOptions });
+      wsserver.emit('connect');
+    });
+
+    test.only('should be able to remove removable channel', async () => {
+      const channelBlock = await screen.findByText('removable_channel');
+      const channelDropdown = channelBlock.closest('.dropdown').querySelector('.dropdown-toggle');
+      await act(async () => {
+        await userEvent.click(channelDropdown);
+      });
+      await act(async () => {
+        await userEvent.click(await screen.findByText('Remove'));
+      });
+      await act(async () => {
+        await userEvent.click(await screen.findByRole('button', { name: 'Remove' }));
+      });
+
+      await waitFor(() => {
+        expect(screen.queryByText('removable_channel')).not.toBeInTheDocument();
+      });
+
+      const { queryByRole } = within(await screen.findByTestId('messages-block'));
+      expect(queryByRole('heading')).toHaveTextContent('# general');
+      expect(screen.queryByTestId('messages')).toHaveTextContent('message_in_general');
+      expect(screen.queryByTestId('messages')).not.toHaveTextContent('message_in_removable');
+    });
+
+    test('should not be able to remove non-removable channel', async () => {
+      const channelBlock = await screen.findByText('general');
+      const channelDropdown = channelBlock.closest('.dropdown').querySelector('.dropdown-toggle');
+      expect(channelDropdown).toBeNull();
+    });
+
+    test('remove modal should show occurred errors', async () => {
+      const expectedErrorText = 'Request failed with status code 500';
+      server.use(
+        rest.delete(routes.channelPath(':id'), (req, res, context) => res.once(
+          context.status(500),
+        )),
+      );
+
+      const channelBlock = await screen.findByText('removable_channel');
+      const channelDropdown = channelBlock.closest('.dropdown').querySelector('.dropdown-toggle');
+      await act(async () => {
+        await userEvent.click(channelDropdown);
+      });
+      await act(async () => {
+        await userEvent.click(await screen.findByText('Remove'));
+      });
+      userEvent.click(await screen.findByRole('button', { name: 'Remove' }));
+
+      await waitFor(async () => {
+        const dialog = await screen.findByRole('dialog');
+        expect(queryByText(dialog, expectedErrorText)).toBeInTheDocument();
       });
     });
   });
