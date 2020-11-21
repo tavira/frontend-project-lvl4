@@ -34,8 +34,13 @@ const renameChannel = (name, channelId) => axios.patch(
   },
 );
 
+const removeChannel = (channelId) => axios.delete(
+  routes.channelPath(channelId),
+);
+
 export {
   sendMessage as apiSendMessage,
   sendChannel as apiSendChannel,
   renameChannel as apiRenameChannel,
+  removeChannel as apiRemoveChannel,
 };

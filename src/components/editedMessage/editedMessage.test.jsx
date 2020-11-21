@@ -14,7 +14,7 @@ import UserContext from '../../contexts/UserContext';
 
 
 const server = setupServer(
-  rest.post('http://localhost/api/v1/channels/:id/messages', (req, res, ctx) => res(ctx.json({
+  rest.post(routes.channelMessagesPath(':id'), (req, res, ctx) => res(ctx.json({
     data: {
       type: 'messages',
       id: 10,
