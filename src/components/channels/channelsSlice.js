@@ -8,6 +8,7 @@ import {
 import {
   apiSendChannel,
   apiRenameChannel,
+  apiRemoveChannel,
 } from '../../api';
 
 const channelsAdapter = createEntityAdapter();
@@ -45,6 +46,18 @@ const renameChannel = createAsyncThunk(
   },
 );
 
+const removeChannel = createAsyncThunk(
+  'channels/removeChannel',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await apiRemoveChannel(id);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  },
+);
+
 export const slice = createSlice({
   name: 'channels',
   initialState: channelsAdapter.getInitialState(),
@@ -60,6 +73,10 @@ export const slice = createSlice({
     },
     channelAdded: channelsAdapter.addOne,
     channelRenamed: channelsAdapter.upsertOne,
+    channelRemoved(state, action) {
+      channelsAdapter.removeOne(state, action.payload.id);
+      state.currentChannelId = 1;
+    },
   },
 });
 
@@ -70,10 +87,12 @@ export const {
   switchChannel,
   channelAdded,
   channelRenamed,
+  channelRemoved,
 } = slice.actions;
 export {
   addChannel,
   renameChannel,
+  removeChannel,
   selectChannels,
   selectCurrentChannel,
 };

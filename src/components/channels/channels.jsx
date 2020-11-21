@@ -9,8 +9,10 @@ import {
   selectChannels,
   switchChannel,
   renameChannel,
+  removeChannel,
 } from './channelsSlice';
 import RenameModal from '../modals/RenameModal';
+import RemoveModal from '../modals/RemoveModal';
 
 const Channels = () => {
   const channels = useSelector(selectChannels);
@@ -31,12 +33,6 @@ const Channels = () => {
   );
 };
 
-const ChannelsList = ({ channels }) => (
-  channels.map((channel) => (
-    <Channel key={channel.id} channel={channel} />
-  ))
-);
-
 const renderModal = ({ modalInfo, hideModal }) => {
   switch (modalInfo.type) {
     case 'no-modal':
@@ -49,34 +45,54 @@ const renderModal = ({ modalInfo, hideModal }) => {
           action={renameChannel}
         />
       );
+    case 'remove':
+      return (
+        <RemoveModal
+          info={modalInfo.data}
+          hideModal={hideModal}
+          action={removeChannel}
+        />
+      );
     default:
       throw new Error(`unknown state: ${modalInfo.state}`);
   }
 };
 
-const Channel = ({ channel }) => {
-  const { id, name, removable } = channel;
-
+const ChannelsList = ({ channels }) => {
   const [modalInfo, setModalInfo] = useState({ type: 'no-modal', data: null });
   const hideModal = () => setModalInfo({ type: 'no-modal', data: null });
+
+  return (
+    <>
+      {
+        channels.map(
+          (channel) => <Channel key={channel.id} channel={channel} setModalInfo={setModalInfo} />,
+        )
+      }
+      {renderModal({ modalInfo, hideModal })}
+    </>
+  );
+};
+
+const Channel = ({ channel, setModalInfo }) => {
+  const { id, name, removable } = channel;
 
   const dispatch = useDispatch();
 
   return (
-    <>
-      <Dropdown
-        as={ButtonGroup}
-        style={{ width: '100%' }}
+    <Dropdown
+      as={ButtonGroup}
+      style={{ width: '100%' }}
+      variant="outline-secondary"
+    >
+      <Button
         variant="outline-secondary"
+        style={{ width: '100%', textAlign: 'left' }}
+        onClick={() => dispatch(switchChannel({ id }))}
       >
-        <Button
-          variant="outline-secondary"
-          style={{ width: '100%', textAlign: 'left' }}
-          onClick={() => dispatch(switchChannel({ id }))}
-        >
-          {name}
-        </Button>
-        {
+        {name}
+      </Button>
+      {
           removable && (
             <>
               <Dropdown.Toggle variant="outline-secondary" split={false} />
@@ -84,14 +100,21 @@ const Channel = ({ channel }) => {
                 <Dropdown.Item onClick={() => setModalInfo({ type: 'rename', data: channel })}>
                   Rename
                 </Dropdown.Item>
+                <Dropdown.Item onClick={() => setModalInfo({ type: 'remove', data: channel })}>
+                  Remove
+                </Dropdown.Item>
               </Dropdown.Menu>
             </>
           )
         }
-      </Dropdown>
-      {renderModal({ modalInfo, hideModal })}
-    </>
+    </Dropdown>
   );
+};
+
+ChannelsList.propTypes = {
+  channels: PropTypes.arrayOf(
+    PropTypes.object.isRequired,
+  ).isRequired,
 };
 
 Channel.propTypes = {
@@ -100,6 +123,7 @@ Channel.propTypes = {
     name: PropTypes.string.isRequired,
     removable: PropTypes.bool.isRequired,
   }).isRequired,
+  setModalInfo: PropTypes.func.isRequired,
 };
 
 export default Channels;
