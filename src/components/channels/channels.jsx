@@ -4,6 +4,7 @@ import {
   Dropdown, Button, ButtonGroup, Row, Col,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import AddChannel from './addChannel';
 import {
   selectChannels,
@@ -15,12 +16,13 @@ import RenameModal from '../modals/RenameModal';
 import RemoveModal from '../modals/RemoveModal';
 
 const Channels = () => {
+  const [t] = useTranslation();
   const channels = useSelector(selectChannels);
 
   return (
     <Row data-testid="channels">
       <Col>
-        <Row><h2>Channels</h2></Row>
+        <Row><h2>{t('channels.header')}</h2></Row>
         <Row style={{ paddingTop: '10px' }}><AddChannel /></Row>
         <Row
           data-testid="channels-list"

@@ -1,0 +1,38 @@
+{
+  "message": {
+    "placeholder": "enter a message",
+    "validation": {
+      "required": "required"
+    }
+  },
+  "channels": {
+    "header": "Channels",
+    "add": {
+      "name": "Add channel"
+    }
+  },
+  "modals": {
+    "add": {
+      "header": "Add",
+      "close": "Close",
+      "save": "Save changes",
+      "validation": {
+        "required": "required"
+      }
+    },
+    "rename": {
+      "header": "Rename",
+      "close": "Close",
+      "save": "Save changes",
+      "validation": {
+        "required": "required"
+      }
+    },
+    "remove": {
+      "header": "Remove",
+      "text": "Are you sure you want to delete channel ",
+      "close": "Close",
+      "save": "Remove"
+    }
+  }
+}

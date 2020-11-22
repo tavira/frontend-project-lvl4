@@ -4,10 +4,12 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const RenameModal = ({
   info, hideModal, action,
 }) => {
+  const [t] = useTranslation();
   const inputRef = useRef();
   const dispatch = useDispatch();
 
@@ -35,7 +37,7 @@ const RenameModal = ({
         onSubmit={handleFormSubmit}
         validationSchema={
           Yup.object().shape({
-            name: Yup.string().required('required'),
+            name: Yup.string().required(t('modals.rename.validation.required')),
           })
         }
       >
@@ -44,7 +46,7 @@ const RenameModal = ({
         }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Header closeButton>
-              <Modal.Title>Rename</Modal.Title>
+              <Modal.Title>{t('modals.rename.header')}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form.Row>
@@ -65,8 +67,8 @@ const RenameModal = ({
               </Form.Row>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={hideModal}>Close</Button>
-              <Button variant="primary" type="submit">Save changes</Button>
+              <Button variant="secondary" onClick={hideModal}>{t('modals.rename.close')}</Button>
+              <Button variant="primary" type="submit">{t('modals.rename.save')}</Button>
             </Modal.Footer>
           </Form>
         )}
