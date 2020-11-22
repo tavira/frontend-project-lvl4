@@ -7,6 +7,7 @@ import createStore from './store';
 import createSocketMiddleware from './middlewares/websocket';
 import UserContext from './contexts/UserContext';
 import { initCurrentChannel, initChannels } from './components/channels/channelsSlice';
+import init18n from './i18n/i18n';
 
 const getRandomUsername = () => {
   const firstName = faker.name.firstName();
@@ -21,6 +22,7 @@ const setCookieIfNotExist = (cookieName, value) => {
 };
 
 const init = (component, initialState, appOptions = {}) => {
+  init18n();
   const socket = appOptions.socket || io();
   const middlewares = [createSocketMiddleware(socket)];
   const store = createStore(initialState, middlewares);

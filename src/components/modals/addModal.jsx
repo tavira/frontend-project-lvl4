@@ -6,10 +6,12 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const AddModal = ({
-  show, handleClose, header, action,
+  show, handleClose, action,
 }) => {
+  const [t] = useTranslation();
   const inputRef = useRef();
   const dispatch = useDispatch();
 
@@ -35,7 +37,7 @@ const AddModal = ({
         onSubmit={handleFormSubmit}
         validationSchema={
           Yup.object().shape({
-            name: Yup.string().required('required'),
+            name: Yup.string().required(t('modals.add.validation.required')),
           })
         }
       >
@@ -44,7 +46,7 @@ const AddModal = ({
         }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Header closeButton>
-              <Modal.Title>{header}</Modal.Title>
+              <Modal.Title>{t('modals.add.header')}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form.Row>
@@ -65,8 +67,8 @@ const AddModal = ({
               </Form.Row>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>Close</Button>
-              <Button variant="primary" type="submit">Save changes</Button>
+              <Button variant="secondary" onClick={handleClose}>{t('modals.add.close')}</Button>
+              <Button variant="primary" type="submit">{t('modals.add.save')}</Button>
             </Modal.Footer>
           </Form>
         )}
@@ -78,7 +80,6 @@ const AddModal = ({
 AddModal.propTypes = {
   show: propTypes.bool.isRequired,
   handleClose: propTypes.func.isRequired,
-  header: propTypes.string.isRequired,
   action: propTypes.func.isRequired,
 };
 
