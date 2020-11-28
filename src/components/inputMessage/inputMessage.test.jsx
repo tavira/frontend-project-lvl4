@@ -1,6 +1,9 @@
 import React from 'react';
 import {
-  fireEvent, screen, waitFor,
+  act,
+  fireEvent,
+  screen,
+  waitFor,
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
@@ -8,9 +11,8 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import axios from 'axios';
 import { render } from '../../tests/test-utils';
-import EditedMessage from './index';
 import routes from '../../routes';
-import UserContext from '../../contexts/UserContext';
+import App from '../../App';
 
 
 const server = setupServer(
@@ -51,16 +53,16 @@ describe('test chat message sending', () => {
 
     const message = 'hello';
     const username = 'author name';
-    const initialState = { currentChannelId: 1, channels: [], messages: [] };
+    const initialState = {
+      currentChannelId: 1,
+      channels: [{ id: 1, name: 'general', removable: false }],
+      messages: [],
+    };
+    const appOptions = { username };
     const expectedPath = routes.channelMessagesPath(initialState.currentChannelId);
     const expectedRequestData = { data: { attributes: { message, username } } };
 
-    const component = (
-      <UserContext.Provider value={username}>
-        <EditedMessage />
-      </UserContext.Provider>
-    );
-    const { findByRole } = render(component, { initialState });
+    const { findByRole } = render(<App />, { initialState, appOptions });
     const element = await findByRole('textbox');
     await userEvent.type(element, message);
     const form = await screen.findByTestId('messageForm');
@@ -72,10 +74,33 @@ describe('test chat message sending', () => {
     spy.mockRestore();
   });
 
-  test('textbox should be empty after message sending', async () => {
-    const initialState = { currentChannelId: 1, channels: [], messages: [] };
+  test('textbox should be disabled while message is sending', async () => {
+    const initialState = {
+      currentChannelId: 1,
+      channels: [{ id: 1, name: 'general', removable: false }],
+      messages: [],
+    };
 
-    const { findByRole } = render(<EditedMessage />, { initialState });
+    const { findByRole } = render(<App />, { initialState });
+    const element = await findByRole('textbox');
+    await userEvent.type(element, '123');
+    const form = await screen.findByTestId('messageForm');
+    await act(async () => {
+      fireEvent.submit(form);
+    });
+    await waitFor(async () => {
+      expect(await screen.findByRole('textbox')).toBeDisabled();
+    });
+  });
+
+  test('textbox should be empty after message sending', async () => {
+    const initialState = {
+      currentChannelId: 1,
+      channels: [{ id: 1, name: 'general', removable: false }],
+      messages: [],
+    };
+
+    const { findByRole } = render(<App />, { initialState });
     const element = await findByRole('textbox');
     await userEvent.type(element, 'some text');
     const form = await screen.findByTestId('messageForm');
@@ -93,8 +118,12 @@ describe('test chat message sending', () => {
         ctx.status(500),
       )),
     );
-    const initialState = { currentChannelId: 1, channels: [], messages: [] };
-    const { findByRole, container } = render(<EditedMessage />, { initialState });
+    const initialState = {
+      currentChannelId: 1,
+      channels: [{ id: 1, name: 'general', removable: false }],
+      messages: [],
+    };
+    const { findByRole, container } = render(<App />, { initialState });
     const element = await findByRole('textbox');
     await userEvent.type(element, 'hello');
     const form = await screen.findByTestId('messageForm');

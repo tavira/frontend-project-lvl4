@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import Channels from './components/channels';
-import EditedMessage from './components/editedMessage';
+import InputMessage from './components/inputMessage/inputMessage';
 import Messages from './components/messages';
 
 const App = () => (
@@ -14,7 +14,7 @@ const App = () => (
           <Messages style={{ height: '80vh', overflowY: 'scroll' }} />
         </Row>
         <Row lg={1}>
-          <EditedMessage />
+          <InputMessage />
         </Row>
       </Col>
     </Row>

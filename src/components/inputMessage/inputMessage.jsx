@@ -2,24 +2,24 @@ import React, { useContext } from 'react';
 import { Formik } from 'formik';
 import { Col, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { postMessage } from './editedMessageSlice';
 import UserContext from '../../contexts/UserContext';
+import { apiSendMessage } from '../../api';
+import { selectCurrentChannel } from '../channels/channelsSlice';
 
 
-const editedMessage = () => {
-  const dispatch = useDispatch();
+const inputMessage = () => {
   const username = useContext(UserContext);
   const [t] = useTranslation();
+  const { id: currentChannelId } = useSelector(selectCurrentChannel);
 
   const handleFormSubmit = async (values, { resetForm, setFieldError }) => {
-    const resultAction = await dispatch(postMessage({ ...values, username }));
-    if (postMessage.fulfilled.match(resultAction)) {
+    try {
+      await apiSendMessage({ ...values, username }, currentChannelId);
       resetForm();
-    }
-    if (postMessage.rejected.match(resultAction)) {
-      setFieldError('message', resultAction.payload);
+    } catch (err) {
+      setFieldError('message', err.message);
     }
   };
 
@@ -34,7 +34,7 @@ const editedMessage = () => {
       }
     >
       { ({
-        handleSubmit, values, handleChange, errors,
+        handleSubmit, values, handleChange, errors, isSubmitting,
       }) => (
         <Form onSubmit={handleSubmit} data-testid="messageForm">
           <Form.Row>
@@ -46,6 +46,7 @@ const editedMessage = () => {
                 onChange={handleChange}
                 isInvalid={!!errors.message}
                 placeholder={t('message.placeholder')}
+                disabled={isSubmitting}
               />
               <Form.Control.Feedback type="invalid">
                 {errors.message}
@@ -58,4 +59,4 @@ const editedMessage = () => {
   );
 };
 
-export default editedMessage;
+export default inputMessage;

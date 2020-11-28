@@ -28,7 +28,7 @@ const init = (component, initialState, appOptions = {}) => {
   const store = createStore(initialState, middlewares);
   store.dispatch(initCurrentChannel({ currentChannelId: initialState.currentChannelId }));
   store.dispatch(initChannels(initialState.channels));
-  const username = getRandomUsername();
+  const username = appOptions.username || getRandomUsername();
   setCookieIfNotExist('username', username);
 
   return (
