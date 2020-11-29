@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 import Channels from './components/channels';
 import InputMessage from './components/inputMessage/inputMessage';
-import Messages from './components/messages';
+import Messages from './components/messages/messages';
 
 const App = () => (
   <Container fluid>
