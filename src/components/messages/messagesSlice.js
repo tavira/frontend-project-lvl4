@@ -6,7 +6,7 @@ const messagesAdapter = createEntityAdapter();
 const messagesSelectors = messagesAdapter.getSelectors((state) => state.messages);
 const selectCurrentChannelMessages = createSelector(
   (state) => state.channels.currentChannelId,
-  (state) => messagesSelectors.selectEntities(state),
+  (state) => messagesSelectors.selectAll(state),
   (currentChannelId, messages) => (
     messages.filter((message) => message.channelId === currentChannelId)
   ),
@@ -16,6 +16,9 @@ export const slice = createSlice({
   name: 'messages',
   initialState: messagesAdapter.getInitialState(),
   reducers: {
+    initMessages(state, action) {
+      messagesAdapter.setAll(state, action.payload);
+    },
     messageDelivered(state, action) {
       messagesAdapter.addOne(state, action.payload);
     },
@@ -23,7 +26,7 @@ export const slice = createSlice({
   extraReducers: {
     'channels/channelRemoved': (state, { payload }) => {
       const removedChannelId = payload.id;
-      const messageIdsToRemove = state.entities
+      const messageIdsToRemove = Object.values(state.entities)
         .filter(
           (message) => message.channelId === removedChannelId,
         )
@@ -34,5 +37,8 @@ export const slice = createSlice({
 });
 
 export default slice.reducer;
-export const { messageDelivered } = slice.actions;
+export const {
+  messageDelivered,
+  initMessages,
+} = slice.actions;
 export { selectCurrentChannelMessages };
