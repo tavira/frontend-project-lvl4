@@ -12,9 +12,11 @@ const RemoveModal = ({
   const dispatch = useDispatch();
 
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const { id, name } = info;
   const handleClick = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const resultAction = await dispatch(action(id));
     if (action.fulfilled.match(resultAction)) {
@@ -38,8 +40,12 @@ const RemoveModal = ({
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={hideModal}>{t('modals.remove.close')}</Button>
-          <Button variant="danger" type="submit" name="remove" onClick={handleClick}>{t('modals.remove.save')}</Button>
+          <Button variant="secondary" onClick={hideModal} disabled={isLoading}>
+            {t('modals.remove.close')}
+          </Button>
+          <Button variant="danger" type="submit" name="remove" onClick={handleClick} disabled={isLoading}>
+            {t('modals.remove.save')}
+          </Button>
         </Modal.Footer>
       </Form>
     </Modal>

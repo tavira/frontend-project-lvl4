@@ -42,7 +42,7 @@ const AddModal = ({
         }
       >
         {({
-          handleSubmit, values, handleChange, errors,
+          handleSubmit, values, handleChange, errors, isSubmitting,
         }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Header closeButton>
@@ -67,8 +67,8 @@ const AddModal = ({
               </Form.Row>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>{t('modals.add.close')}</Button>
-              <Button variant="primary" type="submit">{t('modals.add.save')}</Button>
+              <Button variant="secondary" onClick={handleClose} disabled={isSubmitting}>{t('modals.add.close')}</Button>
+              <Button variant="primary" type="submit" disabled={isSubmitting}>{t('modals.add.save')}</Button>
             </Modal.Footer>
           </Form>
         )}

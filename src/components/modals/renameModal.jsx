@@ -42,7 +42,7 @@ const RenameModal = ({
         }
       >
         {({
-          handleSubmit, values, handleChange, errors,
+          handleSubmit, values, handleChange, errors, isSubmitting,
         }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Header closeButton>
@@ -67,8 +67,12 @@ const RenameModal = ({
               </Form.Row>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={hideModal}>{t('modals.rename.close')}</Button>
-              <Button variant="primary" type="submit">{t('modals.rename.save')}</Button>
+              <Button variant="secondary" onClick={hideModal} disabled={isSubmitting}>
+                {t('modals.rename.close')}
+              </Button>
+              <Button variant="primary" type="submit" disabled={isSubmitting}>
+                {t('modals.rename.save')}
+              </Button>
             </Modal.Footer>
           </Form>
         )}

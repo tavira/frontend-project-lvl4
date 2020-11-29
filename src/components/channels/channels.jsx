@@ -12,8 +12,8 @@ import {
   renameChannel,
   removeChannel,
 } from './channelsSlice';
-import RenameModal from '../modals/RenameModal';
-import RemoveModal from '../modals/RemoveModal';
+import RenameModal from '../modals/renameModal';
+import RemoveModal from '../modals/removeModal';
 
 const Channels = () => {
   const [t] = useTranslation();
