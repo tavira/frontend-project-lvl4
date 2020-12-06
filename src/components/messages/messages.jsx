@@ -16,8 +16,12 @@ const Message = ({ username, text }) => (
   </div>
 );
 
-const MessagesList = ({ messages, style }) => (
-  <div style={style} data-testid="messages">
+const MessagesList = ({ messages }) => (
+  <div
+    data-testid="messages"
+    className="border-top border-secondary px-1 py-2 h-100 bg-light"
+    style={{ overflowY: 'scroll' }}
+  >
     {messages.map((msg) => (<Message key={msg.id} username={msg.username} text={msg.message} />))}
   </div>
 );
@@ -26,12 +30,12 @@ const Messages = ({ style }) => {
   const messages = useSelector(selectCurrentChannelMessages);
   const { name: currentChannelName } = useSelector(selectCurrentChannel);
   return (
-    <div data-testid="messages-block">
+    <div data-testid="messages-block" style={style}>
       <h2>
         {'# '}
         {currentChannelName}
       </h2>
-      <MessagesList messages={messages} style={style} />
+      <MessagesList messages={messages} />
     </div>
   );
 };
@@ -45,7 +49,6 @@ Messages.defaultProps = {
 };
 
 MessagesList.propTypes = {
-  style: PropTypes.objectOf(PropTypes.any),
   messages: PropTypes.arrayOf(
     PropTypes.exact({
       id: PropTypes.number,
@@ -54,10 +57,6 @@ MessagesList.propTypes = {
       channelId: PropTypes.number,
     }),
   ).isRequired,
-};
-
-MessagesList.defaultProps = {
-  style: {},
 };
 
 Message.propTypes = {
