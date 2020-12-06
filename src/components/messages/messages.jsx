@@ -26,13 +26,13 @@ const Messages = ({ style }) => {
   const messages = useSelector(selectCurrentChannelMessages);
   const { name: currentChannelName } = useSelector(selectCurrentChannel);
   return (
-    <>
+    <div data-testid="messages-block">
       <h2>
         {'# '}
         {currentChannelName}
       </h2>
       <MessagesList messages={messages} style={style} />
-    </>
+    </div>
   );
 };
 

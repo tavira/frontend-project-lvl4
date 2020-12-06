@@ -9,13 +9,9 @@ const App = () => (
   <Container fluid>
     <Row>
       <Col lg={3} style={{ borderRight: '1px solid gray' }}><Channels /></Col>
-      <Col lg={{ span: 8, offset: 1 }}>
-        <Row lg={1} data-testid="messages-block">
-          <Messages style={{ height: '80vh', overflowY: 'scroll' }} />
-        </Row>
-        <Row lg={1}>
-          <InputMessage />
-        </Row>
+      <Col>
+        <Messages style={{ height: '80vh', overflowY: 'scroll' }} />
+        <InputMessage />
       </Col>
     </Row>
   </Container>
