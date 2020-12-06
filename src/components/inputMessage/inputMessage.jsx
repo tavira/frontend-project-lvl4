@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { Formik } from 'formik';
-import { Col, Form } from 'react-bootstrap';
+import {
+  Form, Button,
+} from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -36,23 +38,23 @@ const inputMessage = () => {
       { ({
         handleSubmit, values, handleChange, errors, isSubmitting,
       }) => (
-        <Form onSubmit={handleSubmit} data-testid="messageForm">
-          <Form.Row>
-            <Form.Group as={Col} lg={12}>
-              <Form.Control
-                as="input"
-                name="message"
-                value={values.message}
-                onChange={handleChange}
-                isInvalid={!!errors.message}
-                placeholder={t('message.placeholder')}
-                disabled={isSubmitting}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors.message}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Form.Row>
+        <Form inline onSubmit={handleSubmit} data-testid="messageForm" style={{ width: '100%' }}>
+          <Form.Control
+            as="input"
+            name="message"
+            value={values.message}
+            onChange={handleChange}
+            isInvalid={!!errors.message}
+            placeholder={t('message.placeholder')}
+            disabled={isSubmitting}
+            style={{ flex: '1' }}
+          />
+          <Button variant="primary" type="submit" disabled={isSubmitting}>
+            {t('message.send')}
+          </Button>
+          <Form.Control.Feedback type="invalid">
+            {errors.message}
+          </Form.Control.Feedback>
         </Form>
       )}
     </Formik>

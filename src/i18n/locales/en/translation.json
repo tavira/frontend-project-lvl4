@@ -3,7 +3,8 @@
     "placeholder": "enter a message",
     "validation": {
       "required": "required"
-    }
+    },
+    "send": "Send"
   },
   "channels": {
     "header": "Channels",
