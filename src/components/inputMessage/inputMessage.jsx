@@ -33,7 +33,7 @@ const inputMessage = () => {
       onSubmit={handleFormSubmit}
       validationSchema={
         Yup.object().shape({
-          message: Yup.string().required(t('message.validation.required')),
+          message: Yup.string().trim().required(t('message.validation.required')),
         })
       }
     >
