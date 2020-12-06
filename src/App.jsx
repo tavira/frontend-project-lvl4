@@ -1,20 +1,20 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
 import Channels from './components/channels';
 import InputMessage from './components/inputMessage/inputMessage';
 import Messages from './components/messages/messages';
 
 const App = () => (
-  <Container fluid>
-    <Row>
-      <Col lg={3} style={{ borderRight: '1px solid gray' }}><Channels /></Col>
-      <Col>
-        <Messages style={{ height: '80vh', overflowY: 'scroll' }} />
-        <InputMessage />
-      </Col>
-    </Row>
-  </Container>
+  <Row className="h-100">
+    <Col lg={3} className="border-right border-dark">
+      <Channels />
+    </Col>
+    <Col lg={9} className="h-100 d-flex flex-column justify-content-between">
+      <Messages style={{ height: '85%' }} />
+      <InputMessage />
+    </Col>
+  </Row>
 );
 
 export default App;

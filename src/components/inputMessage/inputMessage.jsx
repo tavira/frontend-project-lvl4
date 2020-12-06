@@ -52,7 +52,10 @@ const inputMessage = () => {
           <Button variant="primary" type="submit" disabled={isSubmitting}>
             {t('message.send')}
           </Button>
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback
+            type="invalid"
+            style={{ display: 'block', height: '1.5rem' }}
+          >
             {errors.message}
           </Form.Control.Feedback>
         </Form>
