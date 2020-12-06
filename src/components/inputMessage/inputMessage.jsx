@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Formik } from 'formik';
 import {
   Form, Button,
@@ -15,11 +15,13 @@ const inputMessage = () => {
   const username = useContext(UserContext);
   const [t] = useTranslation();
   const { id: currentChannelId } = useSelector(selectCurrentChannel);
+  const inputRef = useRef();
 
   const handleFormSubmit = async (values, { resetForm, setFieldError }) => {
     try {
       await apiSendMessage({ ...values, username }, currentChannelId);
       resetForm();
+      inputRef.current.focus();
     } catch (err) {
       setFieldError('message', err.message);
     }
@@ -41,6 +43,7 @@ const inputMessage = () => {
         <Form inline onSubmit={handleSubmit} data-testid="messageForm" style={{ width: '100%' }}>
           <Form.Control
             as="input"
+            ref={inputRef}
             name="message"
             value={values.message}
             onChange={handleChange}
