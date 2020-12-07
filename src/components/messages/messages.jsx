@@ -41,7 +41,7 @@ const Messages = ({ style }) => {
   const { name: currentChannelName } = useSelector(selectCurrentChannel);
   return (
     <div data-testid="messages-block" style={style}>
-      <h2>
+      <h2 className="text-truncate" title={currentChannelName}>
         {'# '}
         {currentChannelName}
       </h2>
