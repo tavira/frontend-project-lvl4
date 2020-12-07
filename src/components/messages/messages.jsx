@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { selectCurrentChannelMessages } from './messagesSlice';
@@ -16,15 +16,25 @@ const Message = ({ username, text }) => (
   </div>
 );
 
-const MessagesList = ({ messages }) => (
-  <div
-    data-testid="messages"
-    className="border-top border-secondary px-1 py-2 h-100 bg-light"
-    style={{ overflowY: 'scroll' }}
-  >
-    {messages.map((msg) => (<Message key={msg.id} username={msg.username} text={msg.message} />))}
-  </div>
-);
+const MessagesList = ({ messages }) => {
+  const messagesRef = useRef();
+  useEffect(() => {
+    if (messagesRef.current.lastChild) {
+      messagesRef.current.lastChild.scrollIntoView();
+    }
+  });
+
+  return (
+    <div
+      data-testid="messages"
+      className="border-top border-secondary px-1 py-2 h-100 bg-light"
+      style={{ overflowY: 'scroll' }}
+      ref={messagesRef}
+    >
+      {messages.map((msg) => (<Message key={msg.id} username={msg.username} text={msg.message} />))}
+    </div>
+  );
+};
 
 const Messages = ({ style }) => {
   const messages = useSelector(selectCurrentChannelMessages);
