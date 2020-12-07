@@ -7,7 +7,7 @@ import Messages from './components/messages/messages';
 
 const App = () => (
   <Row className="h-100">
-    <Col lg={3} className="border-right border-dark">
+    <Col lg={3} className="h-100">
       <Channels />
     </Col>
     <Col lg={9} className="h-100 d-flex flex-column justify-content-between">
