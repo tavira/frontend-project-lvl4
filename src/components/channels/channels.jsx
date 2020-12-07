@@ -87,6 +87,8 @@ const Channel = ({ channel, setModalInfo }) => {
       variant="outline-secondary"
     >
       <Button
+        className="text-truncate"
+        title={name}
         variant="outline-secondary"
         style={{ width: '100%', textAlign: 'left' }}
         onClick={() => dispatch(switchChannel({ id }))}
