@@ -1,4 +1,6 @@
 // @ts-check
+const webpack = require('webpack');
+
 const isProduction = process.env.NODE_ENV === 'production';
 console.log('isProduction', isProduction);
 
@@ -17,6 +19,11 @@ module.exports = {
     path: `${__dirname}/dist/public`,
     publicPath: '/assets/',
   },
+  plugins: [
+    new webpack.EnvironmentPlugin({
+      ROLLBAR_TOKEN: '',
+    }),
+  ],
   module: {
     rules: [
       {
