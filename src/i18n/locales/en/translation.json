@@ -16,24 +16,22 @@
     "add": {
       "header": "Add",
       "close": "Close",
-      "save": "Save changes",
-      "validation": {
-        "required": "required"
-      }
+      "save": "Save changes"
     },
     "rename": {
       "header": "Rename",
       "close": "Close",
-      "save": "Save changes",
-      "validation": {
-        "required": "required"
-      }
+      "save": "Save changes"
     },
     "remove": {
       "header": "Remove",
       "text": "Are you sure you want to delete channel ",
       "close": "Close",
       "save": "Remove"
+    },
+    "validation": {
+      "required": "required",
+      "already_exists": "channel with the same name already exists"
     }
   }
 }

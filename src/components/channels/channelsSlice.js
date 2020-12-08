@@ -20,6 +20,10 @@ const selectCurrentChannel = createSelector(
   (state) => state.channels.currentChannelId,
   (channels, currentChannelId) => channels.find((channel) => channel.id === currentChannelId),
 );
+const selectAddedChannelsNames = createSelector(
+  (state) => selectChannels(state),
+  (channels) => channels.map((channel) => channel.name),
+);
 
 const addChannel = createAsyncThunk(
   'channels/addChannel',
@@ -95,4 +99,5 @@ export {
   removeChannel,
   selectChannels,
   selectCurrentChannel,
+  selectAddedChannelsNames,
 };
