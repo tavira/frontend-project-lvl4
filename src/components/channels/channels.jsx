@@ -26,7 +26,7 @@ const Channels = () => {
       <Row
         data-testid="channels-list"
         className="mt-2 pt-1"
-        style={{ overflowY: 'scroll' }}
+        style={{ overflowY: 'auto', paddingBottom: '90px' }}
       >
         <ChannelsList channels={channels} />
       </Row>
