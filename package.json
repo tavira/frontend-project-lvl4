@@ -19,9 +19,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:hexlet-components/projects-frontend-l4-server.git"
+    "url": "git@github.com:tavira/frontend-project-lvl4"
   },
-  "author": "Kirill Mokevnin",
+  "author": "tavira",
   "license": "ISC",
   "homepage": "",
   "dependencies": {
