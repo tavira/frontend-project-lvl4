@@ -134,6 +134,15 @@ describe('test channels', () => {
         expect(queryByText(screen.getByRole('dialog'), expectedErrorText)).toBeInTheDocument();
       });
     });
+
+    test('app should have no way to add two channels with the same name', async () => {
+      await userEvent.click(await screen.findByText('Add channel'));
+
+      await userEvent.type(await screen.findByRole('textbox'), 'general');
+      await waitFor(() => {
+        expect(queryByText(screen.getByRole('dialog'), 'channel with the same name already exists')).toBeInTheDocument();
+      });
+    });
   });
 
   describe('switch channels', () => {
@@ -252,6 +261,15 @@ describe('test channels', () => {
       await userEvent.type(await screen.findByRole('textbox'), '{backspace}');
       await waitFor(() => {
         expect(queryByText(screen.getByRole('dialog'), 'required')).toBeInTheDocument();
+      });
+    });
+
+    test('app should have no way to add two channels with the same name', async () => {
+      await userEvent.click(await screen.findByText('Add channel'));
+
+      await userEvent.type(await screen.findByRole('textbox'), 'general');
+      await waitFor(() => {
+        expect(queryByText(screen.getByRole('dialog'), 'channel with the same name already exists')).toBeInTheDocument();
       });
     });
   });

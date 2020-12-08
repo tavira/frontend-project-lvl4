@@ -2,9 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { selectAddedChannelsNames } from '../channels/channelsSlice';
 
 const RenameModal = ({
   info, hideModal, action,
@@ -12,6 +13,7 @@ const RenameModal = ({
   const [t] = useTranslation();
   const inputRef = useRef();
   const dispatch = useDispatch();
+  const addedChannelsNames = useSelector(selectAddedChannelsNames);
 
   const { id, name } = info;
 
@@ -37,7 +39,9 @@ const RenameModal = ({
         onSubmit={handleFormSubmit}
         validationSchema={
           Yup.object().shape({
-            name: Yup.string().required(t('modals.rename.validation.required')),
+            name: Yup.string().trim()
+              .required(t('modals.validation.required'))
+              .notOneOf(addedChannelsNames, t('modals.validation.already_exists')),
           })
         }
       >
