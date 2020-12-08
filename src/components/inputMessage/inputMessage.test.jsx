@@ -14,7 +14,6 @@ import { render } from '../../tests/test-utils';
 import routes from '../../routes';
 import App from '../../App';
 
-
 const server = setupServer(
   rest.post(routes.channelMessagesPath(':id'), (req, res, ctx) => res(ctx.json({
     data: {

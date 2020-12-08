@@ -59,14 +59,7 @@ Messages.defaultProps = {
 };
 
 MessagesList.propTypes = {
-  messages: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.number,
-      username: PropTypes.string,
-      message: PropTypes.string,
-      channelId: PropTypes.number,
-    }),
-  ).isRequired,
+  messages: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 Message.propTypes = {

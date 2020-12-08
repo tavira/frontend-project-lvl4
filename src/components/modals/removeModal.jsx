@@ -4,7 +4,6 @@ import propTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-
 const RemoveModal = ({
   info, hideModal, action,
 }) => {

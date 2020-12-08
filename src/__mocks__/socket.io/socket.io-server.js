@@ -1,7 +1,6 @@
 import Emitter from 'component-emitter';
 import SocketIoClient from './socket.io-client';
 
-
 class SocketIoServer extends Emitter {
   constructor() {
     super();

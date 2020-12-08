@@ -10,7 +10,6 @@ import UserContext from '../../contexts/UserContext';
 import { apiSendMessage } from '../../api';
 import { selectCurrentChannel } from '../channels/channelsSlice';
 
-
 const inputMessage = () => {
   const username = useContext(UserContext);
   const [t] = useTranslation();

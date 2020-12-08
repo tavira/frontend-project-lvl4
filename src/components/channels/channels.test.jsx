@@ -74,7 +74,6 @@ beforeAll(() => {
   });
 });
 
-
 describe('test channels', () => {
   describe('add channels', () => {
     const initialState = {
