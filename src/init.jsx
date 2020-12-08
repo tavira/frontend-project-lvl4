@@ -20,6 +20,7 @@ const setCookieIfNotExist = (cookieName, value) => {
   if (typeof (Cookies.get(cookieName)) === 'undefined') {
     Cookies.set(cookieName, value);
   }
+  return Cookies.get(cookieName);
 };
 
 const init = (component, initialState, appOptions = {}) => {
@@ -32,8 +33,7 @@ const init = (component, initialState, appOptions = {}) => {
   store.dispatch(initChannels(initialState.channels));
   store.dispatch(initMessages(initialState.messages));
 
-  const username = appOptions.username || getRandomUsername();
-  setCookieIfNotExist('username', username);
+  const username = setCookieIfNotExist('username', appOptions.username || getRandomUsername());
 
   return (
     <Provider store={store}>
