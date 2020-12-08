@@ -1,8 +1,8 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import SocketIoServer from '../../__mocks__/socket.io/socket.io-server';
-import { render } from '../../tests/test-utils';
-import Messages from './messages';
+import SocketIoServer from './__mocks__/socket.io/socket.io-server';
+import { render } from './test-utils';
+import Messages from '../components/messages/messages';
 
 let wsserver;
 let wsclient;

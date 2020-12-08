@@ -12,10 +12,10 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import routes from '../../routes';
-import SocketIoServer from '../../__mocks__/socket.io/socket.io-server';
-import { render } from '../../tests/test-utils';
-import App from '../../App';
+import routes from '../routes';
+import SocketIoServer from './__mocks__/socket.io/socket.io-server';
+import { render } from './test-utils';
+import App from '../App';
 
 let wsserver;
 let wsclient;

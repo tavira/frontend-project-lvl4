@@ -10,9 +10,9 @@ import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import axios from 'axios';
-import { render } from '../../tests/test-utils';
-import routes from '../../routes';
-import App from '../../App';
+import { render } from './test-utils';
+import routes from '../routes';
+import App from '../App';
 
 const server = setupServer(
   rest.post(routes.channelMessagesPath(':id'), (req, res, ctx) => res(ctx.json({
