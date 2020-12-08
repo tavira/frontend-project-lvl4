@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-import Channels from './components/channels';
+import Channels from './components/channels/channels';
 import InputMessage from './components/inputMessage/inputMessage';
 import Messages from './components/messages/messages';
 
