@@ -10,7 +10,7 @@ import UserContext from '../../contexts/UserContext';
 import { apiSendMessage } from '../../api';
 import { selectCurrentChannel } from '../channels/channelsSlice';
 
-const inputMessage = () => {
+const InputMessage = () => {
   const username = useContext(UserContext);
   const [t] = useTranslation();
   const { id: currentChannelId } = useSelector(selectCurrentChannel);
@@ -66,4 +66,4 @@ const inputMessage = () => {
   );
 };
 
-export default inputMessage;
+export default InputMessage;
