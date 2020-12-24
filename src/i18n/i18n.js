@@ -16,7 +16,7 @@ const init18n = () => {
       react: {
         useSuspense: false,
       },
-    });
+    }).then((r) => r);
 };
 
 export default init18n;
