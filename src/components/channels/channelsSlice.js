@@ -5,11 +5,7 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
-import {
-  apiSendChannel,
-  apiRenameChannel,
-  apiRemoveChannel,
-} from '../../api';
+import api from '../../api';
 
 const channelsAdapter = createEntityAdapter();
 const channelsSelectors = channelsAdapter.getSelectors((state) => state.channels);
@@ -29,7 +25,7 @@ const addChannel = createAsyncThunk(
   'channels/addChannel',
   async (values, { rejectWithValue }) => {
     try {
-      const response = await apiSendChannel(values);
+      const response = await api.sendChannel(values);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.message);
@@ -42,7 +38,7 @@ const renameChannel = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     try {
       const { name, id } = values;
-      const response = await apiRenameChannel(name, id);
+      const response = await api.renameChannel(name, id);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.message);
@@ -54,7 +50,7 @@ const removeChannel = createAsyncThunk(
   'channels/removeChannel',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await apiRemoveChannel(id);
+      const response = await api.removeChannel(id);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.message);

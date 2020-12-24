@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import UserContext from '../../contexts/UserContext';
-import { apiSendMessage } from '../../api';
+import api from '../../api';
 import { selectCurrentChannel } from '../channels/channelsSlice';
 
 const InputMessage = () => {
@@ -18,7 +18,7 @@ const InputMessage = () => {
 
   const handleFormSubmit = async (values, { resetForm, setFieldError }) => {
     try {
-      await apiSendMessage({ ...values, username }, currentChannelId);
+      await api.sendMessage({ ...values, username }, currentChannelId);
       resetForm();
       inputRef.current.focus();
     } catch (err) {
