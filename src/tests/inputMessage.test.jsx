@@ -13,6 +13,14 @@ import axios from 'axios';
 import { render } from './test-utils';
 import routes from '../routes';
 import App from '../App';
+import SocketIoServer from './__mocks__/socket.io/socket.io-server';
+
+let wsserver;
+let wsclient;
+beforeEach(() => {
+  wsserver = new SocketIoServer();
+  wsclient = wsserver.socketIoClient;
+});
 
 const server = setupServer(
   rest.post(routes.channelMessagesPath(':id'), (req, res, ctx) => res(ctx.json({
@@ -57,7 +65,7 @@ describe('test chat message sending', () => {
       channels: [{ id: 1, name: 'general', removable: false }],
       messages: [],
     };
-    const appOptions = { username };
+    const appOptions = { username, socket: wsclient };
     const expectedPath = routes.channelMessagesPath(initialState.currentChannelId);
     const expectedRequestData = { data: { attributes: { message, username } } };
 
@@ -80,7 +88,8 @@ describe('test chat message sending', () => {
       messages: [],
     };
 
-    const { findByRole } = render(<App />, { initialState });
+    const appOptions = { socket: wsclient };
+    const { findByRole } = render(<App />, { initialState, appOptions });
     const element = await findByRole('textbox');
     await userEvent.type(element, '123');
     const form = await screen.findByTestId('messageForm');
@@ -99,7 +108,8 @@ describe('test chat message sending', () => {
       messages: [],
     };
 
-    const { findByRole } = render(<App />, { initialState });
+    const appOptions = { socket: wsclient };
+    const { findByRole } = render(<App />, { initialState, appOptions });
     const element = await findByRole('textbox');
     await userEvent.type(element, 'some text');
     const form = await screen.findByTestId('messageForm');
@@ -122,7 +132,9 @@ describe('test chat message sending', () => {
       channels: [{ id: 1, name: 'general', removable: false }],
       messages: [],
     };
-    const { findByRole, container } = render(<App />, { initialState });
+
+    const appOptions = { socket: wsclient };
+    const { findByRole, container } = render(<App />, { initialState, appOptions });
     const element = await findByRole('textbox');
     await userEvent.type(element, 'hello');
     const form = await screen.findByTestId('messageForm');

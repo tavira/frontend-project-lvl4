@@ -2,7 +2,6 @@ import Cookies from 'js-cookie';
 import faker from 'faker';
 import React from 'react';
 import { Provider } from 'react-redux';
-import io from 'socket.io-client';
 import createStore from './store';
 import createSocketMiddleware from './middlewares/websocket';
 import UserContext from './contexts/UserContext';
@@ -24,7 +23,7 @@ const setCookieIfNotExist = (cookieName, value) => {
 
 const init = (component, initialState, appOptions = {}) => {
   init18n();
-  const socket = appOptions.socket || io();
+  const { socket } = appOptions;
   const middlewares = [createSocketMiddleware(socket)];
   const store = createStore(middlewares);
 
