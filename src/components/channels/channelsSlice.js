@@ -6,7 +6,6 @@ import {
   createEntityAdapter,
 } from '@reduxjs/toolkit';
 import api from '../../api';
-import { act } from '@testing-library/react';
 
 const channelsAdapter = createEntityAdapter();
 const channelsSelectors = channelsAdapter.getSelectors((state) => state.channels);
