@@ -26,15 +26,15 @@ const InputMessage = () => {
     }
   };
 
+  const validationSchema = Yup.object().shape({
+    message: Yup.string().trim().required(t('message.validation.required')),
+  });
+
   return (
     <Formik
       initialValues={{ message: '' }}
       onSubmit={handleFormSubmit}
-      validationSchema={
-        Yup.object().shape({
-          message: Yup.string().trim().required(t('message.validation.required')),
-        })
-      }
+      validationSchema={validationSchema}
     >
       { ({
         handleSubmit, values, handleChange, errors, isSubmitting,

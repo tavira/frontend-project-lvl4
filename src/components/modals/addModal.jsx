@@ -32,18 +32,18 @@ const AddModal = ({
     inputRef.current.focus();
   };
 
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().trim()
+      .required(t('modals.validation.required'))
+      .notOneOf(addedChannelsNames, t('modals.validation.already_exists')),
+  });
+
   return (
     <Modal show={show} onHide={handleClose} onShow={handleShowForm}>
       <Formik
         initialValues={{ name: '' }}
         onSubmit={handleFormSubmit}
-        validationSchema={
-          Yup.object().shape({
-            name: Yup.string().trim()
-              .required(t('modals.validation.required'))
-              .notOneOf(addedChannelsNames, t('modals.validation.already_exists')),
-          })
-        }
+        validationSchema={validationSchema}
       >
         {({
           handleSubmit, values, handleChange, errors, isSubmitting,
