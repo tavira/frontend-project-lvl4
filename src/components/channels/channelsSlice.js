@@ -64,6 +64,7 @@ export const slice = createSlice({
   reducers: {
     initChannels(state, action) {
       channelsAdapter.setAll(state, action.payload);
+      state.defaultChannelId = action.payload.currentChannelId;
     },
     initCurrentChannel(state, action) {
       state.currentChannelId = action.payload.currentChannelId;
@@ -75,7 +76,7 @@ export const slice = createSlice({
     channelRenamed: channelsAdapter.upsertOne,
     channelRemoved(state, action) {
       channelsAdapter.removeOne(state, action.payload.id);
-      state.currentChannelId = 1;
+      state.currentChannelId = state.defaultChannelId;
     },
   },
 });
