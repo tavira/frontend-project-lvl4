@@ -34,7 +34,7 @@ const RemoveModal = ({
       <Form>
         <Modal.Body>
           {`${t('modals.remove.text')} ${name}?`}
-          <div className="invalid-feedback" style={{ display: 'block' }}>
+          <div className="invalid-feedback d-block">
             {error}
           </div>
         </Modal.Body>

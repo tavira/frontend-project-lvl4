@@ -12,7 +12,9 @@ const AddChannel = () => {
 
   return (
     <>
-      <Button variant="outline-primary" style={{ width: '100%' }} onClick={handleShow}>{t('channels.add.name')}</Button>
+      <Button variant="outline-primary" className="flex-shrink-1 flex-grow-0 w-100" onClick={handleShow}>
+        {t('channels.add.name')}
+      </Button>
       <AddModal show={showModal} handleClose={handleClose} action={addChannelAction} />
     </>
   );

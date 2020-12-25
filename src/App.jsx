@@ -7,11 +7,11 @@ import Messages from './components/messages/Messages';
 
 const App = () => (
   <Row className="h-100">
-    <Col lg={3} className="h-100">
+    <Col lg={3} className="mh-100 d-flex flex-column">
       <Channels />
     </Col>
-    <Col lg={9} className="h-100 d-flex flex-column justify-content-between">
-      <Messages style={{ height: '85%' }} />
+    <Col lg={9} className="d-flex flex-column mh-100 mb-1 overflow-hidden">
+      <Messages />
       <InputMessage />
     </Col>
   </Row>

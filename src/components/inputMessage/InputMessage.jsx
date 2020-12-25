@@ -39,9 +39,10 @@ const InputMessage = () => {
       { ({
         handleSubmit, values, handleChange, errors, isSubmitting,
       }) => (
-        <Form inline onSubmit={handleSubmit} data-testid="messageForm" style={{ width: '100%' }}>
+        <Form inline onSubmit={handleSubmit} data-testid="messageForm" className="w-100">
           <Form.Control
             as="input"
+            className="d-flex flex-grow-1"
             ref={inputRef}
             name="message"
             value={values.message}
@@ -49,14 +50,12 @@ const InputMessage = () => {
             isInvalid={!!errors.message}
             placeholder={t('message.placeholder')}
             disabled={isSubmitting}
-            style={{ flex: '1' }}
           />
           <Button variant="primary" type="submit" disabled={isSubmitting}>
             {t('message.send')}
           </Button>
           <Form.Control.Feedback
             type="invalid"
-            style={{ display: 'block', height: '1.5rem' }}
           >
             {errors.message}
           </Form.Control.Feedback>

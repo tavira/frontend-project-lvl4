@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Dropdown, Button, ButtonGroup, Row,
+  Dropdown, Button, ButtonGroup,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -20,17 +20,16 @@ const Channels = () => {
   const channels = useSelector(selectChannels);
 
   return (
-    <div className="d-flex flex-column h-100">
-      <Row><h2>{t('channels.header')}</h2></Row>
-      <Row><AddChannel /></Row>
-      <Row
+    <>
+      <h2 className="flex-grow-0 flex-shrink-1">{t('channels.header')}</h2>
+      <AddChannel />
+      <div
         data-testid="channels-list"
-        className="mt-2 pt-1"
-        style={{ overflowY: 'auto', paddingBottom: '90px' }}
+        className="mt-2 pt-1 flex-grow-1 flex-shrink-1 overflow-auto"
       >
         <ChannelsList channels={channels} />
-      </Row>
-    </div>
+      </div>
+    </>
   );
 };
 
@@ -83,14 +82,13 @@ const Channel = ({ channel, setModalInfo }) => {
   return (
     <Dropdown
       as={ButtonGroup}
-      style={{ width: '100%' }}
+      className="w-100"
       variant="outline-secondary"
     >
       <Button
-        className="text-truncate"
+        className="text-truncate w-100 text-left"
         title={name}
         variant="outline-secondary"
-        style={{ width: '100%', textAlign: 'left' }}
         onClick={() => dispatch(switchChannel({ id }))}
       >
         {name}

@@ -27,8 +27,7 @@ const MessagesList = ({ messages }) => {
   return (
     <div
       data-testid="messages"
-      className="border-top border-secondary px-1 py-2 h-100 bg-light"
-      style={{ overflowY: 'scroll' }}
+      className="border-top border-secondary px-1 py-2 bg-light overflow-auto flex-grow-1"
       ref={messagesRef}
     >
       {messages.map((msg) => (<Message key={msg.id} username={msg.username} text={msg.message} />))}
@@ -36,26 +35,18 @@ const MessagesList = ({ messages }) => {
   );
 };
 
-const Messages = ({ style }) => {
+const Messages = () => {
   const messages = useSelector(selectCurrentChannelMessages);
   const { name: currentChannelName } = useSelector(selectCurrentChannel);
   return (
-    <div data-testid="messages-block" style={style}>
-      <h2 className="text-truncate" title={currentChannelName}>
+    <div data-testid="messages-block" className="d-flex flex-column flex-grow-1 overflow-hidden">
+      <h2 className="text-truncate pb-2" title={currentChannelName}>
         {'# '}
         {currentChannelName}
       </h2>
       <MessagesList messages={messages} />
     </div>
   );
-};
-
-Messages.propTypes = {
-  style: PropTypes.objectOf(PropTypes.any),
-};
-
-Messages.defaultProps = {
-  style: {},
 };
 
 MessagesList.propTypes = {
