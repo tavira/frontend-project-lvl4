@@ -5,15 +5,15 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import AddChannel from './addChannel';
+import AddChannel from './AddChannel';
 import {
   selectChannels,
   switchChannel,
   renameChannel,
   removeChannel,
 } from './channelsSlice';
-import RenameModal from '../modals/renameModal';
-import RemoveModal from '../modals/removeModal';
+import RenameModal from '../modals/RenameModal';
+import RemoveModal from '../modals/RemoveModal';
 
 const Channels = () => {
   const [t] = useTranslation();

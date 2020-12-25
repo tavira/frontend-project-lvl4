@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { addChannel as addChannelAction } from './channelsSlice';
-import AddModal from '../modals/addModal';
+import AddModal from '../modals/AddModal';
 
 const AddChannel = () => {
   const [t] = useTranslation();

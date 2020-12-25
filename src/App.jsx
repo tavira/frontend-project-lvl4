@@ -1,9 +1,9 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-import Channels from './components/channels/channels';
-import InputMessage from './components/inputMessage/inputMessage';
-import Messages from './components/messages/messages';
+import Channels from './components/channels/Channels';
+import InputMessage from './components/inputMessage/InputMessage';
+import Messages from './components/messages/Messages';
 
 const App = () => (
   <Row className="h-100">
