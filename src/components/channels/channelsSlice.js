@@ -6,6 +6,7 @@ import {
   createEntityAdapter,
 } from '@reduxjs/toolkit';
 import api from '../../api';
+import { act } from '@testing-library/react';
 
 const channelsAdapter = createEntityAdapter();
 const channelsSelectors = channelsAdapter.getSelectors((state) => state.channels);
@@ -64,7 +65,7 @@ export const slice = createSlice({
   reducers: {
     initChannels(state, action) {
       channelsAdapter.setAll(state, action.payload);
-      state.defaultChannelId = action.payload.currentChannelId;
+      state.defaultChannelId = action.payload.find((channel) => channel.name === 'general').id;
     },
     initCurrentChannel(state, action) {
       state.currentChannelId = action.payload.currentChannelId;
