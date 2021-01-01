@@ -3,10 +3,18 @@ import faker from 'faker';
 import React from 'react';
 import { Provider } from 'react-redux';
 import createStore from './store';
-import createSocketMiddleware from './middlewares/websocket';
 import UserContext from './contexts/UserContext';
-import { initCurrentChannel, initChannels } from './components/channels/channelsSlice';
-import { initMessages } from './components/messages/messagesSlice';
+import {
+  initCurrentChannel,
+  initChannels,
+  channelAdded,
+  channelRenamed,
+  channelRemoved,
+} from './components/channels/channelsSlice';
+import {
+  initMessages,
+  messageDelivered,
+} from './components/messages/messagesSlice';
 import init18n from './i18n/i18n';
 
 const getRandomUsername = () => {
@@ -21,11 +29,28 @@ const setCookieIfNotExist = (cookieName, value) => {
   }
 };
 
+const setupSocketMessagesHandlers = (socket, store) => {
+  socket.on('connect', () => {
+    socket.on('newMessage', ({ data: { attributes } }) => {
+      store.dispatch(messageDelivered(attributes));
+    });
+    socket.on('newChannel', ({ data: { attributes } }) => {
+      store.dispatch(channelAdded(attributes));
+    });
+    socket.on('renameChannel', ({ data: { attributes } }) => {
+      store.dispatch(channelRenamed(attributes));
+    });
+    socket.on('removeChannel', ({ data: { id } }) => {
+      store.dispatch(channelRemoved({ id }));
+    });
+  });
+};
+
 const init = (component, initialState, appOptions = {}) => {
   init18n();
   const { socket } = appOptions;
-  const middlewares = [createSocketMiddleware(socket)];
-  const store = createStore(middlewares);
+  const store = createStore();
+  setupSocketMessagesHandlers(socket, store);
 
   store.dispatch(initCurrentChannel({ currentChannelId: initialState.currentChannelId }));
   store.dispatch(initChannels(initialState.channels));
