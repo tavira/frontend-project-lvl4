@@ -22,9 +22,7 @@ const setCookieIfNotExist = (cookieName, value) => {
 };
 
 const init = (component, initialState, appOptions = {}) => {
-  (async function awaitifyi18n() {
-    await init18n();
-  }());
+  init18n();
   const { socket } = appOptions;
   const middlewares = [createSocketMiddleware(socket)];
   const store = createStore(middlewares);
