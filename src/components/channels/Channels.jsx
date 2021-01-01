@@ -16,7 +16,7 @@ import RenameModal from '../modals/RenameModal';
 import RemoveModal from '../modals/RemoveModal';
 
 const Channels = () => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const channels = useSelector(selectChannels);
 
   return (

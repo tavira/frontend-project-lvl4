@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 const RemoveModal = ({
   info, hideModal, action,
 }) => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const [error, setError] = useState('');

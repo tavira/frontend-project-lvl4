@@ -12,7 +12,7 @@ import { selectCurrentChannel } from '../channels/channelsSlice';
 
 const InputMessage = () => {
   const username = useContext(UserContext);
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const { id: currentChannelId } = useSelector(selectCurrentChannel);
   const inputRef = useRef();
 

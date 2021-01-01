@@ -5,7 +5,7 @@ import { addChannel as addChannelAction } from './channelsSlice';
 import AddModal from '../modals/AddModal';
 
 const AddChannel = () => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);

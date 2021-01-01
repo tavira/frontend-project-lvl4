@@ -10,7 +10,7 @@ import { selectAddedChannelsNames } from '../channels/channelsSlice';
 const RenameModal = ({
   info, hideModal, action,
 }) => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const inputRef = useRef();
   const dispatch = useDispatch();
   const addedChannelsNames = useSelector(selectAddedChannelsNames);
