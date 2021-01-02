@@ -23,13 +23,6 @@ export const slice = createSlice({
   name: 'channels',
   initialState: channelsAdapter.getInitialState(),
   reducers: {
-    initChannels(state, action) {
-      channelsAdapter.setAll(state, action.payload);
-      state.defaultChannelId = action.payload.find((channel) => channel.name === 'general').id;
-    },
-    initCurrentChannel(state, action) {
-      state.currentChannelId = action.payload.currentChannelId;
-    },
     switchChannel(state, action) {
       state.currentChannelId = action.payload.id;
     },
@@ -44,8 +37,6 @@ export const slice = createSlice({
 
 export default slice.reducer;
 export const {
-  initCurrentChannel,
-  initChannels,
   switchChannel,
   channelAdded,
   channelRenamed,

@@ -5,14 +5,11 @@ import { Provider } from 'react-redux';
 import createStore from './store';
 import UserContext from './contexts/UserContext';
 import {
-  initCurrentChannel,
-  initChannels,
   channelAdded,
   channelRenamed,
   channelRemoved,
 } from './components/channels/channelsSlice';
 import {
-  initMessages,
   messageDelivered,
 } from './components/messages/messagesSlice';
 import init18n from './i18n/i18n';
@@ -47,16 +44,31 @@ const setupSocketMessagesHandlers = (socket, store) => {
   });
 };
 
+const makeNormalizedState = (initialState) => ({
+  channels: {
+    ids: initialState.channels.map((channel) => channel.id),
+    entities: initialState.channels.reduce(
+      (acc, channel) => ({ ...acc, [channel.id]: { ...channel } }),
+      {},
+    ),
+    currentChannelId: initialState.currentChannelId,
+    defaultChannelId: initialState.channels.find((channel) => channel.name === 'general').id || 1,
+  },
+  messages: {
+    ids: initialState.messages.map((message) => message.id),
+    entities: initialState.messages.reduce(
+      (acc, message) => ({ ...acc, [message.id]: { ...message } }),
+      {},
+    ),
+  },
+});
+
 const init = (initialState, appOptions = {}) => {
   init18n();
   const { socket } = appOptions;
-  const store = createStore();
+  const preloadedState = makeNormalizedState(initialState);
+  const store = createStore(preloadedState);
   setupSocketMessagesHandlers(socket, store);
-
-  store.dispatch(initCurrentChannel({ currentChannelId: initialState.currentChannelId }));
-  store.dispatch(initChannels(initialState.channels));
-  store.dispatch(initMessages(initialState.messages));
-
   setCookieIfNotExist('username', appOptions.username || getRandomUsername());
   const username = Cookies.get('username');
 

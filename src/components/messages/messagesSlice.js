@@ -16,9 +16,6 @@ export const slice = createSlice({
   name: 'messages',
   initialState: messagesAdapter.getInitialState(),
   reducers: {
-    initMessages(state, action) {
-      messagesAdapter.setAll(state, action.payload);
-    },
     messageDelivered(state, action) {
       messagesAdapter.addOne(state, action.payload);
     },
@@ -39,6 +36,5 @@ export const slice = createSlice({
 export default slice.reducer;
 export const {
   messageDelivered,
-  initMessages,
 } = slice.actions;
 export { selectCurrentChannelMessages };
