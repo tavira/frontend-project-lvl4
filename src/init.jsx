@@ -16,6 +16,7 @@ import {
   messageDelivered,
 } from './components/messages/messagesSlice';
 import init18n from './i18n/i18n';
+import App from './App';
 
 const getRandomUsername = () => {
   const firstName = faker.name.firstName();
@@ -46,7 +47,7 @@ const setupSocketMessagesHandlers = (socket, store) => {
   });
 };
 
-const init = (component, initialState, appOptions = {}) => {
+const init = (initialState, appOptions = {}) => {
   init18n();
   const { socket } = appOptions;
   const store = createStore();
@@ -62,7 +63,7 @@ const init = (component, initialState, appOptions = {}) => {
   return (
     <Provider store={store}>
       <UserContext.Provider value={username}>
-        {component}
+        <App />
       </UserContext.Provider>
     </Provider>
   );

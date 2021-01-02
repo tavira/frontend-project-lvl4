@@ -2,7 +2,8 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import SocketIoServer from './__mocks__/socket.io/socket.io-server';
 import { render } from './test-utils';
-import Messages from '../components/messages/Messages';
+// import Messages from '../components/messages/Messages';
+import App from '../App';
 
 let wsserver;
 let wsclient;
@@ -11,11 +12,11 @@ beforeEach(() => {
   wsclient = wsserver.socketIoClient;
 });
 
-describe('test to recieve messages', () => {
+describe('test to receive messages', () => {
   test('incoming message should display: author, message', async () => {
     const initialState = {
       currentChannelId: 1,
-      channels: [{ id: 1, name: 'general' }],
+      channels: [{ id: 1, name: 'general', removable: false }],
       messages: [],
     };
     const incomingMessage1 = {
@@ -32,7 +33,7 @@ describe('test to recieve messages', () => {
     };
 
     const appOptions = { socket: wsclient };
-    const { container } = await render(<Messages />, { initialState, appOptions });
+    const { container } = await render(<App />, { initialState, appOptions });
     wsserver.emit('connect');
     wsserver.emit('newMessage', { data: { attributes: incomingMessage1 } });
     wsserver.emit('newMessage', { data: { attributes: incomingMessage2 } });
@@ -46,7 +47,7 @@ describe('test to recieve messages', () => {
   test('should show only active channel messages', async () => {
     const initialState = {
       currentChannelId: 1,
-      channels: [{ id: 1, name: 'general' }],
+      channels: [{ id: 1, name: 'general', removable: false }],
       messages: [],
     };
     const incomingMessage1 = {
@@ -63,7 +64,7 @@ describe('test to recieve messages', () => {
     };
 
     const appOptions = { socket: wsclient };
-    const { container } = await render(<Messages />, { initialState, appOptions });
+    const { container } = await render(<App />, { initialState, appOptions });
     wsserver.emit('connect');
     wsserver.emit('newMessage', { data: { attributes: incomingMessage1 } });
     wsserver.emit('newMessage', { data: { attributes: incomingMessage2 } });
