@@ -9,11 +9,10 @@ import AddChannel from './AddChannel';
 import {
   selectChannels,
   switchChannel,
-  renameChannel,
-  removeChannel,
 } from './channelsSlice';
 import RenameModal from '../modals/RenameModal';
 import RemoveModal from '../modals/RemoveModal';
+import api from '../../api';
 
 const Channels = () => {
   const { t } = useTranslation();
@@ -42,7 +41,7 @@ const renderModal = ({ modalInfo, hideModal }) => {
         <RenameModal
           info={modalInfo.data}
           hideModal={hideModal}
-          action={renameChannel}
+          action={api.renameChannel}
         />
       );
     case 'remove':
@@ -50,7 +49,7 @@ const renderModal = ({ modalInfo, hideModal }) => {
         <RemoveModal
           info={modalInfo.data}
           hideModal={hideModal}
-          action={removeChannel}
+          action={api.removeChannel}
         />
       );
     default:

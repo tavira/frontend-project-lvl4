@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { selectAddedChannelsNames } from '../channels/channelsSlice';
@@ -14,17 +14,15 @@ const AddModal = ({
 }) => {
   const { t } = useTranslation();
   const inputRef = useRef();
-  const dispatch = useDispatch();
   const addedChannelsNames = useSelector(selectAddedChannelsNames);
 
   const handleFormSubmit = async (values, { resetForm, setFieldError }) => {
-    const resultAction = await dispatch(action(values));
-    if (action.fulfilled.match(resultAction)) {
+    try {
+      await action(values);
       resetForm();
       handleClose();
-    }
-    if (action.rejected.match(resultAction)) {
-      setFieldError('name', resultAction.payload);
+    } catch (e) {
+      setFieldError('name', e.message);
     }
   };
 

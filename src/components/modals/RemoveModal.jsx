@@ -1,28 +1,25 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import propTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 const RemoveModal = ({
   info, hideModal, action,
 }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
 
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const { id, name } = info;
   const handleClick = async (e) => {
-    setIsLoading(true);
     e.preventDefault();
-    const resultAction = await dispatch(action(id));
-    if (action.fulfilled.match(resultAction)) {
+    setIsLoading(true);
+    try {
+      await action(id);
       hideModal();
-    }
-    if (action.rejected.match(resultAction)) {
-      setError(resultAction.payload);
+    } catch (err) {
+      setError(err.message);
     }
   };
 

@@ -21,43 +21,6 @@ const selectAddedChannelsNames = createSelector(
   (channels) => channels.map((channel) => channel.name),
 );
 
-const addChannel = createAsyncThunk(
-  'channels/addChannel',
-  async (values, { rejectWithValue }) => {
-    try {
-      const response = await api.sendChannel(values);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.message);
-    }
-  },
-);
-
-const renameChannel = createAsyncThunk(
-  'channels/renameChannel',
-  async (values, { rejectWithValue }) => {
-    try {
-      const { name, id } = values;
-      const response = await api.renameChannel(name, id);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.message);
-    }
-  },
-);
-
-const removeChannel = createAsyncThunk(
-  'channels/removeChannel',
-  async (id, { rejectWithValue }) => {
-    try {
-      const response = await api.removeChannel(id);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.message);
-    }
-  },
-);
-
 export const slice = createSlice({
   name: 'channels',
   initialState: channelsAdapter.getInitialState(),
@@ -91,9 +54,6 @@ export const {
   channelRemoved,
 } = slice.actions;
 export {
-  addChannel,
-  renameChannel,
-  removeChannel,
   selectChannels,
   selectCurrentChannel,
   selectAddedChannelsNames,

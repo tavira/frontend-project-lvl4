@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { addChannel as addChannelAction } from './channelsSlice';
 import AddModal from '../modals/AddModal';
+import api from '../../api';
 
 const AddChannel = () => {
   const { t } = useTranslation();
@@ -15,7 +15,7 @@ const AddChannel = () => {
       <Button variant="outline-primary" className="flex-shrink-1 flex-grow-0 w-100" onClick={handleShow}>
         {t('channels.add.name')}
       </Button>
-      <AddModal show={showModal} handleClose={handleClose} action={addChannelAction} />
+      <AddModal show={showModal} handleClose={handleClose} action={api.sendChannel} />
     </>
   );
 };
