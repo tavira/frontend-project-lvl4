@@ -2,10 +2,8 @@
 import {
   createSlice,
   createSelector,
-  createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
-import api from '../../api';
 
 const channelsAdapter = createEntityAdapter();
 const channelsSelectors = channelsAdapter.getSelectors((state) => state.channels);
