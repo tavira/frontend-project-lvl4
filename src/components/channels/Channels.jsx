@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Dropdown, Button, ButtonGroup,
@@ -10,9 +10,7 @@ import {
   selectChannels,
   switchChannel,
 } from './channelsSlice';
-import RenameModal from '../modals/RenameModal';
-import RemoveModal from '../modals/RemoveModal';
-import api from '../../api';
+import { openModal } from '../modals/modalsSlice';
 
 const Channels = () => {
   const { t } = useTranslation();
@@ -32,48 +30,17 @@ const Channels = () => {
   );
 };
 
-const renderModal = ({ modalInfo, hideModal }) => {
-  switch (modalInfo.type) {
-    case 'no-modal':
-      return null;
-    case 'rename':
-      return (
-        <RenameModal
-          info={modalInfo.data}
-          hideModal={hideModal}
-          action={api.renameChannel}
-        />
-      );
-    case 'remove':
-      return (
-        <RemoveModal
-          info={modalInfo.data}
-          hideModal={hideModal}
-          action={api.removeChannel}
-        />
-      );
-    default:
-      throw new Error(`unknown state: ${modalInfo.state}`);
-  }
-};
-
-const ChannelsList = ({ channels }) => {
-  const [modalInfo, setModalInfo] = useState({ type: 'no-modal', data: null });
-  const hideModal = () => setModalInfo({ type: 'no-modal', data: null });
-
-  return (
-    <>
-      {
+const ChannelsList = ({ channels }) => (
+  <>
+    {
         channels.map(
-          (channel) => <Channel key={channel.id} channel={channel} setModalInfo={setModalInfo} />,
+          (channel) => <Channel key={channel.id} channel={channel} />,
         )
       }
-      {renderModal({ modalInfo, hideModal })}
-    </>
-  );
-};
+  </>
+);
 
-const Channel = ({ channel, setModalInfo }) => {
+const Channel = ({ channel }) => {
   const { id, name, removable } = channel;
 
   const dispatch = useDispatch();
@@ -97,10 +64,10 @@ const Channel = ({ channel, setModalInfo }) => {
             <>
               <Dropdown.Toggle variant="outline-secondary" split={false} />
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => setModalInfo({ type: 'rename', data: channel })}>
+                <Dropdown.Item onClick={() => dispatch(openModal({ type: 'renaming', context: channel }))}>
                   Rename
                 </Dropdown.Item>
-                <Dropdown.Item onClick={() => setModalInfo({ type: 'remove', data: channel })}>
+                <Dropdown.Item onClick={() => dispatch(openModal({ type: 'removing', context: channel }))}>
                   Remove
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -123,7 +90,6 @@ Channel.propTypes = {
     name: PropTypes.string.isRequired,
     removable: PropTypes.bool.isRequired,
   }).isRequired,
-  setModalInfo: PropTypes.func.isRequired,
 };
 
 export default Channels;

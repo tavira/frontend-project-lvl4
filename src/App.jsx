@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 import Channels from './components/channels/Channels';
 import InputMessage from './components/inputMessage/InputMessage';
 import Messages from './components/messages/Messages';
+import BaseModal from './components/modals/BaseModal';
 
 const App = () => (
   <Row className="h-100">
@@ -14,6 +15,7 @@ const App = () => (
       <Messages />
       <InputMessage />
     </Col>
+    <BaseModal />
   </Row>
 );
 

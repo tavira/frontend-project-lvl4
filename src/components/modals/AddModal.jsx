@@ -4,30 +4,30 @@ import {
 } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useSelector } from 'react-redux';
-import propTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import api from '../../api';
 import { selectAddedChannelsNames } from '../channels/channelsSlice';
+import { closeModal } from './modalsSlice';
 
-const AddModal = ({
-  show, handleClose, action,
-}) => {
+const AddModal = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const inputRef = useRef();
   const addedChannelsNames = useSelector(selectAddedChannelsNames);
 
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
+
   const handleFormSubmit = async (values, { resetForm, setFieldError }) => {
     try {
-      await action(values);
+      await api.sendChannel(values);
       resetForm();
       handleClose();
     } catch (e) {
       setFieldError('name', e.message);
     }
-  };
-
-  const handleShowForm = () => {
-    inputRef.current.focus();
   };
 
   const validationSchema = Yup.object().shape({
@@ -37,52 +37,44 @@ const AddModal = ({
   });
 
   return (
-    <Modal show={show} onHide={handleClose} onShow={handleShowForm}>
-      <Formik
-        initialValues={{ name: '' }}
-        onSubmit={handleFormSubmit}
-        validationSchema={validationSchema}
-      >
-        {({
-          handleSubmit, values, handleChange, errors, isSubmitting,
-        }) => (
-          <Form onSubmit={handleSubmit}>
-            <Modal.Header closeButton>
-              <Modal.Title>{t('modals.add.header')}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form.Row>
-                <Form.Group>
-                  <Form.Control
-                    data-testid="input-name"
-                    type="text"
-                    name="name"
-                    value={values.name}
-                    onChange={handleChange}
-                    isInvalid={!!errors.name}
-                    ref={inputRef}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.name}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Form.Row>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose} disabled={isSubmitting}>{t('modals.add.close')}</Button>
-              <Button variant="primary" type="submit" disabled={isSubmitting}>{t('modals.add.save')}</Button>
-            </Modal.Footer>
-          </Form>
-        )}
-      </Formik>
-    </Modal>
+    <Formik
+      initialValues={{ name: '' }}
+      onSubmit={handleFormSubmit}
+      validationSchema={validationSchema}
+    >
+      {({
+        handleSubmit, values, handleChange, errors, isSubmitting,
+      }) => (
+        <Form onSubmit={handleSubmit}>
+          <Modal.Header closeButton>
+            <Modal.Title>{t('modals.add.header')}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Row>
+              <Form.Group>
+                <Form.Control
+                  data-testid="input-name"
+                  type="text"
+                  name="name"
+                  value={values.name}
+                  onChange={handleChange}
+                  isInvalid={!!errors.name}
+                  ref={inputRef}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.name}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Form.Row>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose} disabled={isSubmitting}>{t('modals.add.close')}</Button>
+            <Button variant="primary" type="submit" disabled={isSubmitting}>{t('modals.add.save')}</Button>
+          </Modal.Footer>
+        </Form>
+      )}
+    </Formik>
   );
-};
-
-AddModal.propTypes = {
-  show: propTypes.bool.isRequired,
-  handleClose: propTypes.func.isRequired,
-  action: propTypes.func.isRequired,
 };
 
 export default AddModal;

@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import AddModal from '../modals/AddModal';
-import api from '../../api';
+import { openModal } from '../modals/modalsSlice';
 
 const AddChannel = () => {
   const { t } = useTranslation();
-  const [showModal, setShowModal] = useState(false);
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(openModal({ type: 'adding' }));
+  };
 
   return (
-    <>
-      <Button variant="outline-primary" className="flex-shrink-1 flex-grow-0 w-100" onClick={handleShow}>
-        {t('channels.add.name')}
-      </Button>
-      <AddModal show={showModal} handleClose={handleClose} action={api.sendChannel} />
-    </>
+    <Button variant="outline-primary" className="flex-shrink-1 flex-grow-0 w-100" onClick={handleClick}>
+      {t('channels.add.name')}
+    </Button>
   );
 };
 

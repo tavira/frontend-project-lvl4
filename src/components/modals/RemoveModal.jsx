@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import api from '../../api';
+import { closeModal } from './modalsSlice';
 
-const RemoveModal = ({
-  info, hideModal, action,
-}) => {
+const RemoveModal = ({ info }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -16,15 +18,19 @@ const RemoveModal = ({
     e.preventDefault();
     setIsLoading(true);
     try {
-      await action(id);
-      hideModal();
+      await api.removeChannel(id);
+      dispatch(closeModal());
     } catch (err) {
       setError(err.message);
     }
   };
 
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
+
   return (
-    <Modal show onHide={hideModal}>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.remove.header')}</Modal.Title>
       </Modal.Header>
@@ -36,7 +42,7 @@ const RemoveModal = ({
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={hideModal} disabled={isLoading}>
+          <Button variant="secondary" onClick={handleClose} disabled={isLoading}>
             {t('modals.remove.close')}
           </Button>
           <Button variant="danger" type="submit" name="remove" onClick={handleClick} disabled={isLoading}>
@@ -44,7 +50,7 @@ const RemoveModal = ({
           </Button>
         </Modal.Footer>
       </Form>
-    </Modal>
+    </>
   );
 };
 
@@ -53,8 +59,6 @@ RemoveModal.propTypes = {
     id: propTypes.number.isRequired,
     name: propTypes.string.isRequired,
   }).isRequired,
-  hideModal: propTypes.func.isRequired,
-  action: propTypes.func.isRequired,
 };
 
 export default RemoveModal;
